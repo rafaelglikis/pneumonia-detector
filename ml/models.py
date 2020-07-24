@@ -1,11 +1,11 @@
 from ml.utils import *
 from tensorflow import keras
-from tensorflow.keras.applications import InceptionV3
-from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Dropout
-from tensorflow.keras.callbacks import EarlyStopping, TensorBoard
-from tensorflow.keras.losses import categorical_crossentropy
+from tensorboard import program
 from tensorflow.keras.optimizers import Nadam
-
+from tensorflow.keras.applications import InceptionV3
+from tensorflow.keras.losses import categorical_crossentropy
+from tensorflow.keras.callbacks import EarlyStopping, TensorBoard
+from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Dropout
 
 
 class BaseModel(keras.Model):
@@ -66,7 +66,7 @@ class InceptionV3Transfer(BaseModel):
     def train(self, train_generator):
         return self.fit(
             train_generator,
-            epochs=1,
+            epochs=40,
             steps_per_epoch=50,
             callbacks=self.callbacks
         )
