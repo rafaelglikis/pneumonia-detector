@@ -31,7 +31,7 @@ class BaseModel(keras.Model):
         print(f"Tensorboard URL: {url}")
 
     def save(self, **kwargs):
-        path = f"models/{self.model_name}_{self.time_str}.h5"
+        path = f"models/{self.model_name}_{self.time_str}"
         return super().save(path)
 
 
