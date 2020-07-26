@@ -1,13 +1,50 @@
+import argparse
 from ml.utils import *
 import tensorflow as tf
-from ml.models import InceptionV3Transfer
+from ml.models import InceptionV3Transfer, VGG16Transfer
+
 tf.get_logger().setLevel('WARNING')
 
-if __name__ == "__main__":
-    train_generator, test_generator = create_generators()
 
-    model = InceptionV3Transfer()
+def parse_commandline():
+    models = ['inception', 'vgg16', 'resnet50']
+    parser = argparse.ArgumentParser(description='Detect pneumonia from chest x rays.')
+    parser.add_argument('--train', nargs=1, dest='model', choices=models, help='Train a model.', )
+    parser.add_argument('--evaluate', nargs=1, help='Evaluate trained model.')
+
+    return parser.parse_args()
+
+
+def train(train_gen, test_gen, model):
     model.launch_tensorboard()
-    history = model.train(train_generator)
-    model.evaluate(test_generator)
+    history = model.train(train_gen)
+    model.evaluate(test_gen)
     model.save()
+
+    return history
+
+
+def evaluate(test_gen, filepath):
+    print(f"Loading: {filepath}")
+    model = tf.keras.models.load_model(filepath)
+    print(f"Evaluating: {filepath}")
+    model.evaluate(test_gen)
+
+
+if __name__ == "__main__":
+    args = parse_commandline()
+    print(args)
+
+    if args.model:
+        train_generator, test_generator = create_generators()
+        if args.model == 'inception':
+            train(train_generator, test_generator, InceptionV3Transfer())
+        elif args.model == 'vgg16':
+            train(train_generator, test_generator, VGG16Transfer())
+        elif args.model == 'resnet50':
+            train(train_generator, test_generator, InceptionV3Transfer())
+
+    if args.evaluate:
+        _, test_generator = create_generators()
+        for path in args.evaluate:
+            evaluate(test_generator, path)
