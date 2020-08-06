@@ -1,6 +1,4 @@
 import argparse
-import os
-
 from ml.utils import *
 import tensorflow as tf
 from ml.models import InceptionV3Transfer, VGG16Transfer, ResNet50V2Transfer, EnsembleUnit
