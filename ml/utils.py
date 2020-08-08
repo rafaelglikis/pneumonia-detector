@@ -22,7 +22,7 @@ def timeit(f):
         start = time()
         result = f(*args, **kw)
         end = time()
-        print(f"func:{f.__name__} args:[{args}, {kw}] took: {end-start} sec")
+        print(f"func:{f.__name__} args:[{args}, {kw}] took: {end - start} sec")
         return result
 
     return timed

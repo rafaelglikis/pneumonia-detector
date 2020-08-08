@@ -74,7 +74,7 @@ class EnsembleUnit(Model):
         self.weight = weight
 
     def predict(self, image_path):
-        image = preprocess_image(image_path)
+        image = self.preprocess_image(image_path)
         return self.model.predict(image, batch_size=10)[0]
 
     def predict_with_weight(self, image_path):
