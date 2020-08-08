@@ -3,18 +3,6 @@ from time import time
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
-class Evaluator:
-    def __init__(self, size, false_negatives, true_negatives, false_positives, true_positives):
-        self.size = size
-        self.false_negatives = false_negatives
-        self.true_negatives = true_negatives
-        self.false_positives = false_positives
-        self.true_positives = true_positives
-
-    def accuracy(self):
-        return (self.true_positives + self.true_negatives) / self.size
-
-
 def create_time_str():
     return datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 

@@ -1,7 +1,8 @@
 import argparse
 from ml.utils import *
 import tensorflow as tf
-from ml.models import InceptionV3Transfer, VGG16Transfer, ResNet50V2Transfer, EnsembleUnit
+from ml.ensemble import EnsembleUnit, Ensemble
+from ml.models import InceptionV3Transfer, VGG16Transfer, ResNet50V2Transfer
 
 tf.get_logger().setLevel('WARNING')
 
@@ -32,11 +33,12 @@ def evaluate(test_gen, filepath):
 
 
 if __name__ == "__main__":
-    model_path = 'models/inception_v3_transfer_20200725-001214'
-    ensemble = EnsembleUnit(model_path, 1)
+    ensemble = Ensemble([
+        EnsembleUnit('ensemble/inception_v3_transfer_20200725-123618', 1)
+    ])
+
     ensemble.evaluate('dataset/chest_xray/test')
-    _, test_generator = create_generators()
-    evaluate(test_generator, model_path)
+
 
 
     args = parse_commandline()
