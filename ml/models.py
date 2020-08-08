@@ -38,8 +38,6 @@ class Model(keras.Model):
 class TransferModel(Model):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.model_name = 'inception_v3_transfer'
-
         # Layers
         self.average_poling = GlobalAveragePooling2D()
         self.dense_256 = Dense(256, activation='relu')
