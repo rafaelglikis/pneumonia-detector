@@ -1,11 +1,9 @@
 import os
-import numpy as np
 from tqdm import tqdm
 from ml.utils import *
 from typing import List
 from tensorflow import keras
 from abc import ABC, abstractmethod
-from tensorflow.keras.preprocessing import image
 
 
 class Evaluator:
@@ -22,10 +20,10 @@ class Evaluator:
 
 class Model(ABC):
     def preprocess_image(self, image_path):
-        img = image.load_img(image_path, target_size=(300, 300))
-        x = image.img_to_array(img)
-        x = np.expand_dims(x, axis=0)
-        return np.vstack([x]) / 255
+        return preprocess_image(
+            image_path=image_path,
+            target_size=(300, 300)
+        )
 
     @timeit
     def evaluate(self, dir):
@@ -76,7 +74,7 @@ class EnsembleUnit(Model):
         self.weight = weight
 
     def predict(self, image_path):
-        image = self.preprocess_image(image_path)
+        image = preprocess_image(image_path)
         return self.model.predict(image, batch_size=10)[0]
 
     def predict_with_weight(self, image_path):
