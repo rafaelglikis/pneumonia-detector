@@ -5,7 +5,7 @@ from tensorflow.keras.optimizers import Nadam
 from tensorflow.keras.losses import categorical_crossentropy
 from tensorflow.keras.applications import InceptionV3, VGG16, ResNet50V2
 from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Dropout
-from tensorflow.keras.callbacks import EarlyStopping, TensorBoard, ModelCheckpoint
+from tensorflow.keras.callbacks import EarlyStopping, TensorBoard
 
 
 class Model(keras.Model):
@@ -16,12 +16,7 @@ class Model(keras.Model):
         self.log_dir = f"logs/fit/{self.time_str}"
         self.callbacks = [
             TensorBoard(log_dir=self.log_dir),
-            EarlyStopping(monitor='loss', patience=5, verbose=1),
-            ModelCheckpoint(
-                monitor='loss',
-                filepath=f"models/best_{self.model_name}_{self.time_str}.h5",
-                save_best_only=True
-            )
+            EarlyStopping(monitor='loss', patience=5, verbose=1)
         ]
 
     def launch_tensorboard(self):
