@@ -99,5 +99,6 @@ class Ensemble(Model):
 
 
 ensemble = Ensemble([
-    EnsembleUnit('ensemble/inception_v3_transfer_20200725-123618', 1)
+    EnsembleUnit('ensemble/inception_v3_transfer_20200725-123618', 0.6),
+    EnsembleUnit('ensemble/vgg16_v3_transfer_20200726-124845', 0.4)
 ])
