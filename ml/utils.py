@@ -1,6 +1,16 @@
 import datetime
+import numpy as np
 from time import time
+from tensorflow.keras.preprocessing import image
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+
+def preprocess_image(image_path, target_size):
+    img = image.load_img(image_path, target_size=target_size)
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+
+    return np.vstack([x]) / 255
 
 
 def create_time_str():
