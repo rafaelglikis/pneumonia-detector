@@ -1,7 +1,7 @@
 import argparse
 from ml.utils import *
 import tensorflow as tf
-from ml.models import create_model
+from ml.models import Model, create_model
 from ml.ensemble import Ensemble, ensemble
 
 tf.get_logger().setLevel('WARNING')
@@ -19,7 +19,7 @@ def parse_commandline():
     return parser.parse_args()
 
 
-def train(train_gen, test_gen, model):
+def train(train_gen, test_gen, model: Model):
     model.launch_tensorboard()
     history = model.train(train_gen)
     model.evaluate(test_gen)
