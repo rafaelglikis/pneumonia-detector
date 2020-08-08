@@ -32,6 +32,7 @@ class Model(keras.Model):
 
     def save(self, **kwargs):
         path = f"models/{self.model_name}_{self.time_str}"
+        print(f"Saving Model to {path}")
         return super().save(path)
 
 
