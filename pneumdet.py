@@ -1,7 +1,7 @@
 import argparse
 from ml.utils import *
 import tensorflow as tf
-from ml.ensemble import EnsembleUnit, Ensemble
+from ml.ensemble import EnsembleUnit, Ensemble, ensemble
 from ml.models import InceptionV3Transfer, VGG16Transfer, ResNet50V2Transfer
 
 tf.get_logger().setLevel('WARNING')
@@ -11,7 +11,10 @@ def parse_commandline():
     models = ['inception', 'vgg16', 'resnet50']
     parser = argparse.ArgumentParser(description='Detect pneumonia from chest x rays.')
     parser.add_argument('--train', nargs=1, dest='model', choices=models, help='Train a model.', )
-    parser.add_argument('--evaluate', nargs=1, help='Evaluate trained model.')
+    parser.add_argument('--evaluate', help='Evaluate trained model.')
+
+    ensemble_options = ['evaluate']
+    parser.add_argument('--ensemble', nargs=1, choices=ensemble_options, help='Use ensemble.')
 
     return parser.parse_args()
 
@@ -32,17 +35,16 @@ def evaluate(test_gen, filepath):
     model.evaluate(test_gen)
 
 
-if __name__ == "__main__":
-    ensemble = Ensemble([
-        EnsembleUnit('ensemble/inception_v3_transfer_20200725-123618', 1)
-    ])
-
+def evaluate_ensemble(ensemble: Ensemble):
     ensemble.evaluate('dataset/chest_xray/test')
 
 
-
+if __name__ == "__main__":
     args = parse_commandline()
-    print(args)
+
+    if args.ensemble:
+        if args.ensemble[0] == 'evaluate':
+            evaluate_ensemble(ensemble)
 
     if args.model:
         train_generator, test_generator = create_generators()

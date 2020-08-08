@@ -96,3 +96,8 @@ class Ensemble(Model):
             prediction[1] += p[1]
 
         return prediction
+
+
+ensemble = Ensemble([
+    EnsembleUnit('ensemble/inception_v3_transfer_20200725-123618', 1)
+])
