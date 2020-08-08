@@ -97,7 +97,7 @@ class Ensemble(Model):
 
 
 ensemble = Ensemble([
-    EnsembleUnit('ensemble/inception_v3_transfer_20200725-123618', 0.4),
-    EnsembleUnit('ensemble/vgg16_v3_transfer_20200726-124845', 0.35),
-    EnsembleUnit('ensemble/resnet50_v2_transfer_20200808-134834', 0.25)
+    EnsembleUnit('ensemble/inception_v3_transfer_20200725-123618', 0.5),
+    EnsembleUnit('ensemble/vgg16_v3_transfer_20200726-124845', 0.3),
+    EnsembleUnit('ensemble/resnet50_v2_transfer_20200808-134834', 0.2)
 ])
