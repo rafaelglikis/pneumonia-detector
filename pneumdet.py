@@ -1,8 +1,8 @@
 import argparse
 from ml.utils import *
 import tensorflow as tf
-from ml.ensemble import EnsembleUnit, Ensemble, ensemble
-from ml.models import InceptionV3Transfer, VGG16Transfer, ResNet50V2Transfer
+from ml.models import create_model
+from ml.ensemble import Ensemble, ensemble
 
 tf.get_logger().setLevel('WARNING')
 
@@ -48,13 +48,8 @@ if __name__ == "__main__":
 
     if args.model:
         train_generator, test_generator = create_generators()
-        model = args.model[0]
-        if model == 'inception':
-            train(train_generator, test_generator, InceptionV3Transfer())
-        elif model == 'vgg16':
-            train(train_generator, test_generator, VGG16Transfer())
-        elif model == 'resnet50':
-            train(train_generator, test_generator, ResNet50V2Transfer())
+        model = create_model(args.model[0])
+        train(train_generator, test_generator, model)
 
     if args.evaluate:
         _, test_generator = create_generators()

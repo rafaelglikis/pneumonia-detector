@@ -130,3 +130,12 @@ class ResNet50V2Transfer(TransferModel):
         return self.output_layer(x)
 
 
+def create_model(model):
+    if model == 'inception':
+        return InceptionV3Transfer()
+    elif model == 'vgg16':
+        return VGG16Transfer()
+    elif model == 'resnet50':
+        return ResNet50V2Transfer()
+    else:
+        raise NameError(f"Invalid Model {model}")
