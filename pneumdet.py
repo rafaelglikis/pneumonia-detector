@@ -53,5 +53,5 @@ if __name__ == "__main__":
 
     if args.evaluate:
         _, test_generator = create_generators()
-        for path in args.evaluate:
-            evaluate(test_generator, path)
+        path = args.evaluate
+        evaluate(test_generator, path)
