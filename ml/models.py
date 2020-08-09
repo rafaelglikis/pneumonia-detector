@@ -3,9 +3,9 @@ from tensorflow import keras
 from tensorboard import program
 from tensorflow.keras.optimizers import Nadam
 from tensorflow.keras.losses import categorical_crossentropy
-from tensorflow.keras.applications import InceptionV3, VGG16, ResNet50V2
-from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Dropout
 from tensorflow.keras.callbacks import EarlyStopping, TensorBoard
+from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Dropout
+from tensorflow.keras.applications import InceptionV3, VGG16, ResNet50V2, DenseNet121
 
 
 class Model(keras.Model):
@@ -124,6 +124,33 @@ class ResNet50V2Transfer(TransferModel):
         return self.output_layer(x)
 
 
+class DenseNet121Transfer(TransferModel):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.model_name = 'densenet121_transfer'
+        self.densenet121 = DenseNet121(
+            include_top=False,
+            weights='imagenet',
+            input_shape=(300, 300, 3)
+        )
+        self.densenet121.trainable = True
+
+        # Compile model with loss, metrics and optimizer
+        self.compile(
+            loss=categorical_crossentropy,
+            metrics=['accuracy'],
+            optimizer=Nadam(lr=1e-4)
+        )
+
+    def call(self, inputs, training=None, mask=None):
+        x = self.densenet121(inputs)
+        x = self.average_poling(x)
+        x = self.dense_256(x)
+        x = self.dropout_50(x, training=training)
+
+        return self.output_layer(x)
+
+
 def create_model(model):
     if model == 'inception':
         return InceptionV3Transfer()
@@ -131,5 +158,7 @@ def create_model(model):
         return VGG16Transfer()
     elif model == 'resnet50':
         return ResNet50V2Transfer()
+    elif model == 'densenet121':
+        return DenseNet121Transfer()
     else:
         raise NameError(f"Invalid Model {model}")
