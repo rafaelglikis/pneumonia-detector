@@ -5,7 +5,7 @@ from tensorflow.keras.optimizers import Nadam
 from tensorflow.keras.losses import categorical_crossentropy
 from tensorflow.keras.callbacks import EarlyStopping, TensorBoard
 from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Dropout
-from tensorflow.keras.applications import InceptionV3, VGG16, ResNet50V2, DenseNet121
+from tensorflow.keras.applications import InceptionV3, VGG16, ResNet50V2, DenseNet121, Xception
 
 
 class Model(keras.Model):
@@ -151,6 +151,33 @@ class DenseNet121Transfer(TransferModel):
         return self.output_layer(x)
 
 
+class XceptionTransfer(TransferModel):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.model_name = 'xception'
+        self.xception = Xception(
+            include_top=False,
+            weights='imagenet',
+            input_shape=(300, 300, 3)
+        )
+        self.xception.trainable = True
+
+        # Compile model with loss, metrics and optimizer
+        self.compile(
+            loss=categorical_crossentropy,
+            metrics=['accuracy'],
+            optimizer=Nadam(lr=1e-4)
+        )
+
+    def call(self, inputs, training=None, mask=None):
+        x = self.xception(inputs)
+        x = self.average_poling(x)
+        x = self.dense_256(x)
+        x = self.dropout_50(x, training=training)
+
+        return self.output_layer(x)
+
+
 def create_model(model):
     if model == 'inception':
         return InceptionV3Transfer()
@@ -160,5 +187,7 @@ def create_model(model):
         return ResNet50V2Transfer()
     elif model == 'densenet121':
         return DenseNet121Transfer()
+    elif model == 'xception':
+        return XceptionTransfer()
     else:
         raise NameError(f"Invalid Model {model}")
