@@ -47,6 +47,13 @@ class TransferModel(Model):
             optimizer=Nadam(lr=1e-4)
         )
 
+    def top(self, inputs, training):
+        inputs = self.average_poling(inputs)
+        inputs = self.dense_256(inputs)
+        inputs = self.dropout_50(inputs, training=training)
+
+        return self.output_layer(inputs)
+
     @timeit
     def train(self, train_generator):
         return self.fit(
@@ -171,11 +178,8 @@ class XceptionTransfer(TransferModel):
 
     def call(self, inputs, training=None, mask=None):
         x = self.xception(inputs)
-        x = self.average_poling(x)
-        x = self.dense_256(x)
-        x = self.dropout_50(x, training=training)
 
-        return self.output_layer(x)
+        return self.top(x, training)
 
 
 def create_model(model):
