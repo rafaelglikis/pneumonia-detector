@@ -156,11 +156,7 @@ class DenseNet121Transfer(TransferModel):
 
     def call(self, inputs, training=None, mask=None):
         x = self.densenet121(inputs)
-        x = self.average_poling(x)
-        x = self.dense_256(x)
-        x = self.dropout_50(x, training=training)
-
-        return self.output_layer(x)
+        return self.top(x, training)
 
 
 class XceptionTransfer(TransferModel):
@@ -183,7 +179,6 @@ class XceptionTransfer(TransferModel):
 
     def call(self, inputs, training=None, mask=None):
         x = self.xception(inputs)
-
         return self.top(x, training)
 
 
