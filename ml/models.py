@@ -5,7 +5,7 @@ from tensorflow.keras.optimizers import Nadam
 from tensorflow.keras.losses import categorical_crossentropy
 from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Dropout
 from tensorflow.keras.callbacks import EarlyStopping, TensorBoard, ModelCheckpoint
-from tensorflow.keras.applications import InceptionV3, VGG16, ResNet50V2, DenseNet121, Xception
+from tensorflow.keras.applications import InceptionV3, VGG16, ResNet50V2, DenseNet121, Xception, MobileNetV2
 
 
 class Model(keras.Model):
@@ -182,6 +182,22 @@ class XceptionTransfer(TransferModel):
         return self.top(x, training)
 
 
+class MobileNetV2Transfer(TransferModel):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.model_name = 'mobilenet'
+        self.mobilenet_v2 = MobileNetV2(
+            include_top=False,
+            weights='imagenet',
+            input_shape=(300, 300, 3)
+        )
+        self.xception.mobilenet_v2 = True
+
+    def call(self, inputs, training=None, mask=None):
+        x = self.mobilenet_v2(inputs)
+        return self.top(x, training)
+
+
 def create_model(model):
     if model == 'inception':
         return InceptionV3Transfer()
@@ -193,5 +209,7 @@ def create_model(model):
         return DenseNet121Transfer()
     elif model == 'xception':
         return XceptionTransfer()
+    elif model == 'mobilenet':
+        return MobileNetV2Transfer()
     else:
         raise NameError(f"Invalid Model {model}")
