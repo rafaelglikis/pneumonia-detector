@@ -8,7 +8,7 @@ tf.get_logger().setLevel('ERROR')
 
 
 def parse_commandline():
-    models = ['inception', 'vgg16', 'resnet50', 'densenet121', 'xception']
+    models = ['inception', 'vgg16', 'resnet50', 'densenet121', 'xception', 'mobilenet']
     parser = argparse.ArgumentParser(description='Detect pneumonia from chest x rays.')
     parser.add_argument('--train', nargs=1, dest='model', choices=models, help='Train a model.', )
     parser.add_argument('--evaluate', nargs='+', help='Evaluate trained model.')
