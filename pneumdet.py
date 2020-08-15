@@ -4,14 +4,14 @@ import tensorflow as tf
 from ml.models import Model, create_model
 from ml.ensemble import Ensemble, ensemble
 
-tf.get_logger().setLevel('WARNING')
+tf.get_logger().setLevel('ERROR')
 
 
 def parse_commandline():
     models = ['inception', 'vgg16', 'resnet50', 'densenet121', 'xception']
     parser = argparse.ArgumentParser(description='Detect pneumonia from chest x rays.')
     parser.add_argument('--train', nargs=1, dest='model', choices=models, help='Train a model.', )
-    parser.add_argument('--evaluate', help='Evaluate trained model.')
+    parser.add_argument('--evaluate', nargs='+', help='Evaluate trained model.')
 
     ensemble_options = ['evaluate']
     parser.add_argument('--ensemble', nargs=1, choices=ensemble_options, help='Use ensemble.')
@@ -53,5 +53,5 @@ if __name__ == "__main__":
 
     if args.evaluate:
         _, test_generator = create_generators()
-        path = args.evaluate
-        evaluate(test_generator, path)
+        for path in args.evaluate:
+            evaluate(test_generator, path)
