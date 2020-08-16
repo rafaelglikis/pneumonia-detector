@@ -193,6 +193,13 @@ class MobileNetV2Transfer(TransferModel):
         )
         self.mobilenet_v2.trainable = True
 
+        # Compile model with loss, metrics and optimizer
+        self.compile(
+            loss=categorical_crossentropy,
+            metrics=['accuracy'],
+            optimizer=Nadam(lr=1e-4)
+        )
+
     def call(self, inputs, training=None, mask=None):
         x = self.mobilenet_v2(inputs)
         return self.top(x, training)
