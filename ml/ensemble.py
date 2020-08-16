@@ -15,7 +15,8 @@ class Evaluator:
         self.true_positives = true_positives
 
     def accuracy(self):
-        return (self.true_positives + self.true_negatives) / (self.false_negatives + self.true_negatives + self.false_positives + self.true_positives)
+        return (self.true_positives + self.true_negatives) / (
+                    self.false_negatives + self.true_negatives + self.false_positives + self.true_positives)
 
     def precision(self):
         return self.true_positives / (self.true_positives + self.false_positives)
@@ -28,6 +29,14 @@ class Evaluator:
 
     def f_measure(self):
         return (2 * self.precision() * self.sensitivity()) / (self.precision() + self.sensitivity())
+
+    def print_confusion_matrix(self):
+        print(f"Samples {self.size}")
+        print(f"False Negatives {self.false_negatives}")
+        print(f"True Negatives {self.true_negatives}")
+        print(f"False Positives {self.false_positives}")
+        print(f"True Positives {self.true_positives}")
+
 
 class Model(ABC):
     def preprocess_image(self, image_path):
@@ -72,6 +81,7 @@ class Model(ABC):
             true_positives=tp
         )
 
+        evaluator.print_confusion_matrix()
         print(f"Accuracy: {evaluator.accuracy()}")
         print(f"Precision: {evaluator.precision()}")
         print(f"Sensitivity: {evaluator.sensitivity()}")
@@ -112,8 +122,9 @@ class Ensemble(Model):
 
 
 ensemble = Ensemble([
-    EnsembleUnit('ensemble/inception_v3_transfer_20200725-123618', 0.4),
-    EnsembleUnit('ensemble/vgg16_v3_transfer_20200726-124845', 0.2),
-    EnsembleUnit('ensemble/resnet50_v2_transfer_20200808-134834', 0.2),
-    EnsembleUnit('ensemble/xception_20200811-013119', 0.2)
+    EnsembleUnit('ensemble/inception_v3_transfer_20200725-123618', 0.4),  # 0.9439
+    EnsembleUnit('ensemble/densenet121_transfer_20200815-105921', 0.2),  # 0.9375
+    EnsembleUnit('ensemble/vgg16_v3_transfer_20200726-124845', 0.2),  # 0.9359
+    EnsembleUnit('ensemble/xception_20200811-013119', 0.15),  # 0.9343
+    EnsembleUnit('ensemble/resnet50_v2_transfer_20200808-134834', 0.05),  # 0.9263
 ])
