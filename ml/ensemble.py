@@ -23,13 +23,16 @@ class Evaluator:
         self.f_measure = (2 * self.precision * self.sensitivity) / (self.precision + self.sensitivity)
 
     def print_confusion_matrix(self):
-        print(f"Samples {self.size}")
-        print(f"False Negatives {self.false_negatives}")
-        print(f"True Negatives {self.true_negatives}")
-        print(f"False Positives {self.false_positives}")
-        print(f"True Positives {self.true_positives}")
+        print("Confusion Matrix")
+        print(f"----------------{self.size} samples")
+        print(f" - False Negatives {self.false_negatives}")
+        print(f" - True Negatives {self.true_negatives}")
+        print(f" - False Positives {self.false_positives}")
+        print(f" - True Positives {self.true_positives}")
 
     def print_evaluation_metrics(self):
+        print("Evaluation Metrics")
+        print("----------------")
         print(f"Accuracy: {self.accuracy}")
         print(f"Precision: {self.precision}")
         print(f"Sensitivity: {self.sensitivity}")
