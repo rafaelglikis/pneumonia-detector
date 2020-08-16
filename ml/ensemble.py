@@ -14,21 +14,13 @@ class Evaluator:
         self.false_positives = false_positives
         self.true_positives = true_positives
 
-    def accuracy(self):
-        return (self.true_positives + self.true_negatives) / (
-                    self.false_negatives + self.true_negatives + self.false_positives + self.true_positives)
-
-    def precision(self):
-        return self.true_positives / (self.true_positives + self.false_positives)
-
-    def sensitivity(self):
-        return self.true_positives / (self.true_positives + self.false_negatives)
-
-    def specificity(self):
-        return self.true_negatives / (self.true_negatives + self.false_positives)
-
-    def f_measure(self):
-        return (2 * self.precision() * self.sensitivity()) / (self.precision() + self.sensitivity())
+        self.accuracy = (self.true_positives + self.true_negatives) / (
+                self.false_negatives + self.true_negatives + self.false_positives + self.true_positives
+        )
+        self.precision = self.true_positives / (self.true_positives + self.false_positives)
+        self.sensitivity = self.true_positives / (self.true_positives + self.false_negatives)
+        self.specificity = self.true_negatives / (self.true_negatives + self.false_positives)
+        self.f_measure = (2 * self.precision * self.sensitivity) / (self.precision + self.sensitivity)
 
     def print_confusion_matrix(self):
         print(f"Samples {self.size}")
@@ -36,6 +28,13 @@ class Evaluator:
         print(f"True Negatives {self.true_negatives}")
         print(f"False Positives {self.false_positives}")
         print(f"True Positives {self.true_positives}")
+
+    def print_evaluation_metrics(self):
+        print(f"Accuracy: {self.accuracy}")
+        print(f"Precision: {self.precision}")
+        print(f"Sensitivity: {self.sensitivity}")
+        print(f"Specificity: {self.specificity}")
+        print(f"F Measure: {self.f_measure}")
 
 
 class Model(ABC):
@@ -82,11 +81,8 @@ class Model(ABC):
         )
 
         evaluator.print_confusion_matrix()
-        print(f"Accuracy: {evaluator.accuracy()}")
-        print(f"Precision: {evaluator.precision()}")
-        print(f"Sensitivity: {evaluator.sensitivity()}")
-        print(f"Specificity: {evaluator.specificity()}")
-        print(f"F Measure: {evaluator.f_measure()}")
+        evaluator.print_evaluation_metrics()
+
 
     @abstractmethod
     def predict(self, image_path):
