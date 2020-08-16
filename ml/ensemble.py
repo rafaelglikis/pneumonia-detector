@@ -15,8 +15,19 @@ class Evaluator:
         self.true_positives = true_positives
 
     def accuracy(self):
-        return (self.true_positives + self.true_negatives) / self.size
+        return (self.true_positives + self.true_negatives) / (self.false_negatives + self.true_negatives + self.false_positives + self.true_positives)
 
+    def precision(self):
+        return self.true_positives / (self.true_positives + self.false_positives)
+
+    def sensitivity(self):
+        return self.true_positives / (self.true_positives + self.false_negatives)
+
+    def specificity(self):
+        return self.true_negatives / (self.true_negatives + self.false_positives)
+
+    def f_measure(self):
+        return (2 * self.precision() * self.sensitivity()) / (self.precision() + self.sensitivity())
 
 class Model(ABC):
     def preprocess_image(self, image_path):
@@ -62,6 +73,10 @@ class Model(ABC):
         )
 
         print(f"Accuracy: {evaluator.accuracy()}")
+        print(f"Precision: {evaluator.precision()}")
+        print(f"Sensitivity: {evaluator.sensitivity()}")
+        print(f"Specificity: {evaluator.specificity()}")
+        print(f"F Measure: {evaluator.f_measure()}")
 
     @abstractmethod
     def predict(self, image_path):
