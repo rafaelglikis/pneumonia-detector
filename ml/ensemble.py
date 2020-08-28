@@ -119,11 +119,9 @@ class Ensemble(Model):
 
         return prediction
 
-
 ensemble = Ensemble([
-    EnsembleUnit('ensemble/inception_v3_transfer_20200725-123618', 0.4),  # 0.9439
-    EnsembleUnit('ensemble/densenet121_transfer_20200815-105921', 0.2),  # 0.9375
-    EnsembleUnit('ensemble/vgg16_v3_transfer_20200726-124845', 0.2),  # 0.9359
-    EnsembleUnit('ensemble/xception_20200811-013119', 0.15),  # 0.9343
-    EnsembleUnit('ensemble/resnet50_v2_transfer_20200808-134834', 0.05),  # 0.9263
+    EnsembleUnit('ensemble/inception_v3_transfer_20200725-123618', 0.4),
+    EnsembleUnit('ensemble/vgg16_v3_transfer_20200726-124845', 0.2),
+    EnsembleUnit('ensemble/resnet50_v2_transfer_20200808-134834', 0.2),
+    EnsembleUnit('ensemble/xception_20200811-013119', 0.2)
 ])
