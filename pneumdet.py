@@ -1,10 +1,7 @@
 import argparse
 from ml.utils import *
-import tensorflow as tf
 from ml.models import Model, create_model
-from ml.ensemble import Ensemble, ensemble
-
-tf.get_logger().setLevel('ERROR')
+from ml.ensemble import Ensemble, ensemble, EnsembleUnit
 
 
 def parse_commandline():
@@ -28,11 +25,11 @@ def train(train_gen, test_gen, model: Model):
     return history
 
 
-def evaluate(test_gen, filepath):
+def evaluate(filepath):
     print(f"Loading: {filepath}")
-    model = tf.keras.models.load_model(filepath)
     print(f"Evaluating: {filepath}")
-    model.evaluate(test_gen)
+    model = EnsembleUnit(filepath)
+    model.evaluate('dataset/chest_xray/test')
 
 
 def evaluate_ensemble(ensemble: Ensemble):
@@ -52,6 +49,5 @@ if __name__ == "__main__":
         train(train_generator, test_generator, model)
 
     if args.evaluate:
-        _, test_generator = create_generators()
         for path in args.evaluate:
-            evaluate(test_generator, path)
+            evaluate(path)

@@ -93,7 +93,7 @@ class Model(ABC):
 
 
 class EnsembleUnit(Model):
-    def __init__(self, model_path: str, weight: float):
+    def __init__(self, model_path: str, weight: float = 1.0):
         self.model = keras.models.load_model(model_path)
         self.weight = weight
 
