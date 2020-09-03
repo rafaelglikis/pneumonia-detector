@@ -34,3 +34,24 @@ optional arguments:
   --ensemble {evaluate}
                         Use ensemble.
 ```
+
+### Examples
+
+Train inception model
+```bash
+ python pneumdet.py --train inception
+```
+Evaluate ensemble/inception_v3_transfer_20200725-123618 model
+```bash
+python pneumdet.py --evaluate ensemble/inception_v3_transfer_20200725-123618 
+```
+
+Evaluate all models in the ensemble directory
+```bash
+ python pneumdet.py --evaluate ensemble/*
+```
+
+Evaluate the ensemble created
+```bash
+ python pneumdet.py --ensemble evaluate 
+```
