@@ -86,7 +86,7 @@ class Model(ABC):
         evaluator.print_confusion_matrix()
         evaluator.print_evaluation_metrics()
 
-
+    
     @abstractmethod
     def predict(self, image_path):
         pass
