@@ -33,7 +33,7 @@ ensemble
 └── xception_20200811-013119
 ```
 
-## Usage1   
+## Usage
 ```sh
 usage: pneumdet.py [-h]
                    [--train {inception,vgg16,resnet50,densenet121,xception,mobilenet}]
