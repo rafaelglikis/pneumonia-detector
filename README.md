@@ -10,6 +10,7 @@ pip install -r requirements.txt
 mkdir dataset
 wget https://data.mendeley.com/datasets/rscbjbr9sj/2/files/f12eaf6d-6023-432f-acc9-80c9d7393433/ChestXRay2017.zip?dl=1 -O dataset/dataset.zip
 unzip dataset/dataset.zip -d dataset/
+# Also remove unnecessary files
 rm -r dataset/__MACOSX
 rm dataset/dataset.zip
 rm dataset/chest_xray/test/.DS_Store
