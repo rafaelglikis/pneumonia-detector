@@ -19,7 +19,21 @@ rm dataset/chest_xray/test/.DS_Store
 rm dataset/chest_xray/train/.DS_Store
 ```
 
-## Usage
+### Download ensemble models
+ - Download [models](https://mega.nz/file/8Lw1RbjT#HvsgbbYdBfFLc-XbwuoYg57D9fh7WygXSMQtG5RjCc0). 
+ - Extract
+ - Move the contents of the ensemble directory to the ensemble directory of this project.
+
+The contents of the ensemble directory should be:
+```
+ensemble
+├── inception_v3_transfer_20200725-123618
+├── resnet50_v2_transfer_20200808-134834
+├── vgg16_v3_transfer_20200726-124845
+└── xception_20200811-013119
+```
+
+## Usage1   
 ```sh
 usage: pneumdet.py [-h]
                    [--train {inception,vgg16,resnet50,densenet121,xception,mobilenet}]
