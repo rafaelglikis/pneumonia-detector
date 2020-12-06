@@ -1,4 +1,5 @@
 # Pneumonia Detector
+An ensemble model for pneumonia detection that achieves 95.51% accuracy and 96.44 % F1 score on the ChestXRay17 dataset. 
 
 ## Setup
 ```sh
